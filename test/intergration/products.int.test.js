@@ -28,10 +28,13 @@ it("GET /api/productst", async () => {
   expect(response.body[0].name).toBeDefined();
   expect(response.body[0].description).toBeDefined();
   firstProduct = response.body[0];
+  console.log("QWER", firstProduct);
 });
 
 it("GET /api/product/:productId", async () => {
-  const response = await request(app).get("/api/products/" + firstProduct._id);
+  const response = await request(app).get(
+    "/api/products/" + firstProduct._id_id\
+  );
   expect(response.statusCode).toBe(200);
   expect(response.body.name).toBe(firstProduct.name);
   expect(response.body.description).toBe(firstProduct.description);
@@ -39,7 +42,37 @@ it("GET /api/product/:productId", async () => {
 
 it("GET id doesnt exist /api/products/:productId", async () => {
   const response = await request(app).get(
-    "/api/products/6374ba431cd9fdewqdsafdee97c4a5b"
+    "/api/products/6374ba2d9467dc0d64b474b5"
   );
   expect(response.statusCode).toBe(404);
+});
+
+it("PUT /api/products", async () => {
+  const res = await request(app)
+    .put("/api/products/" + firstProduct._id)
+    .send({ name: "updated name", description: "updated description" });
+  expect(res.statusCode).toBe(200);
+  expect(res.body.name).toBe("updated name");
+  expect(res.body.description).toBe("updated description");
+});
+
+it("should return 404 on PUT /api/products", async () => {
+  const res = await request(app)
+    .put("/api/products" + "")
+    .send({ name: "updated name", description: "updated description" });
+  expect(res.statusCode).toBe(404);
+});
+
+it("DELETE /api/products", async () => {
+  const res = await request(app)
+    .delete("/api/products" + firstProduct._id)
+    .send();
+  expect(res.statusCode).toBe(200);
+});
+
+it("DELETE id doesnt exist /api/products/:productId", async () => {
+  const res = await request(app)
+    .delete("/api/products/" + firstProduct._id)
+    .send();
+  expect(res.statusCode).toBe(404);
 });

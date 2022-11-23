@@ -8,9 +8,7 @@ const app = express();
 app.use(express.json());
 
 mongoose
-  .connect(
-    "mongodb+srv://tdd:junseop96*@cluster0.uuvs3gl.mongodb.net/?retryWrites=true&w=majority"
-  )
+  .connect()
   .then(() => console.log("MongoDB Connected..."))
   .catch(err => console.log("DB error", err));
 
